@@ -69,7 +69,7 @@
 #define SERIAL_USART_RX_PAL_MODE 7 // Pin "alternate function", see the respective datasheet for the appropriate values for your MCU. default: 7
 #define SERIAL_USART_TIMEOUT 20    // USART driver timeout. default 20
 
-#define MASTER_RIGHT
+#define MASTER_LEFT // USB-C to PC is on the left half (right links to left over USB-C)
 
 #define SPLIT_HAND_PIN C1
 //#define SPLIT_LAYER_STATE_ENABLE
@@ -98,11 +98,12 @@
 //#define NO_ACTION_MACRO
 //#define NO_ACTION_FUNCTION
 
+// SPLIT_USB_DETECT polling overridden in m57.c (delay + usb_event_queue_task)
 #define SPLIT_USB_DETECT
-#define SPLIT_USB_TIMEOUT 2000
+#define SPLIT_USB_TIMEOUT 10000
 #define USB_POLLING_INTERVAL_MS 1
 #define SPLIT_MODS_ENABLE
-#define SPLIT_USB_TIMEOUT_POLL 10
-#define SPLIT_WATCHDOG_TIMEOUT 3000
+#define SPLIT_USB_TIMEOUT_POLL 25
+#define SPLIT_WATCHDOG_TIMEOUT 15000
 #define SPLIT_WATCHDOG_ENABLE
 #define NEW_401_BL

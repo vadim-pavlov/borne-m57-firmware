@@ -1,4 +1,26 @@
 #include "m57.h"
+#include "wait.h"
+#include "usb_util.h"
+#include "usb_main.h"
+
+/*
+ * Cold-boot fix for SPLIT_USB_DETECT: delay before polling, then wait for host
+ * enumeration while pumping USB events (main loop has not started yet).
+ */
+bool is_keyboard_master_impl(void) {
+    wait_ms(1500);
+
+    for (uint16_t i = 0; i < (SPLIT_USB_TIMEOUT / SPLIT_USB_TIMEOUT_POLL); i++) {
+        if (usb_connected_state()) {
+            return true;
+        }
+        usb_event_queue_task();
+        wait_ms(SPLIT_USB_TIMEOUT_POLL);
+    }
+
+    usb_disconnect();
+    return false;
+}
 
 #ifdef RGB_MATRIX_ENABLE
 
